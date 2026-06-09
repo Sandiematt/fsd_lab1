@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Pharmacy - Inventory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>💊</span>
+                <span>MediCare Pharmacy</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">🏠 Home</a></li>
+                <li><a href="inventory.html" class="active">📦 Inventory</a></li>
+                <li><a href="cart.html" style="position: relative;">
+                    🛒 Cart
+                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                </a></li>
+                <li><a href="profile.html">👤 Profile</a></li>
+                <li><a href="about.html">ℹ️ About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="section-header">
+            <h1>Our Medicines & Healthcare Products</h1>
+            <p>Browse our catalog of genuine medications and first-aid supplies.</p>
+        </div>
+
+        <div class="search-filter-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search medicines by name...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All Items</button>
+                <button class="filter-btn" data-category="Pain Relief">Pain Relief</button>
+                <button class="filter-btn" data-category="Vitamins">Vitamins</button>
+                <button class="filter-btn" data-category="Cold & Flu">Cold & Flu</button>
+                <button class="filter-btn" data-category="First Aid">First Aid</button>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Product Card 1 -->
+            <div class="product-card" data-name="paracetamol" data-category="Pain Relief">
+                <div class="product-header">
+                    <span class="badge">Pain Relief</span>
+                    <div class="product-icon">💊</div>
+                </div>
+                <div class="product-info">
+                    <h3>Paracetamol 500mg</h3>
+                    <p>Effective relief from headaches, fever, and mild to moderate pain.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$4.99</span>
+                    <button onclick="addToCart('p1', 'Paracetamol 500mg', 4.99, '💊', 'Pain Relief')">
+                        <span>🛒</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card" data-name="vitamin c" data-category="Vitamins">
+                <div class="product-header">
+                    <span class="badge">Vitamins</span>
+                    <div class="product-icon">🧴</div>
+                </div>
+                <div class="product-info">
+                    <h3>Vitamin C 1000mg</h3>
+                    <p>Boosts immunity, supports skin health, and acts as a powerful antioxidant.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$9.99</span>
+                    <button onclick="addToCart('p3', 'Vitamin C 1000mg', 9.99, '🧴', 'Vitamins')">
+                        <span>🛒</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="product-card" data-name="cough syrup" data-category="Cold & Flu">
+                <div class="product-header">
+                    <span class="badge">Cold & Flu</span>
+                    <div class="product-icon">🧪</div>
+                </div>
+                <div class="product-info">
+                    <h3>Cough Syrup 150ml</h3>
+                    <p>Soothing relief from dry, tickly, and chesty coughs for adults.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$7.99</span>
+                    <button onclick="addToCart('p5', 'Cough Syrup 150ml', 7.99, '🧪', 'Cold & Flu')">
+                        <span>🛒</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Card 4 -->
+            <div class="product-card" data-name="first aid kit" data-category="First Aid">
+                <div class="product-header">
+                    <span class="badge">First Aid</span>
+                    <div class="product-icon">🩹</div>
+                </div>
+                <div class="product-info">
+                    <h3>Premium First Aid Kit</h3>
+                    <p>Complete set of emergency supplies including bandages, wipes, and tape.</p>
+                </div>
+                <div class="product-footer">
+                    <span class="product-price">$19.99</span>
+                    <button onclick="addToCart('p7', 'Premium First Aid Kit', 19.99, '🩹', 'First Aid')">
+                        <span>🛒</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Update Cart Badge on load
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('medicareCart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        updateCartBadge();
+
+        // Add Product to localStorage Cart
+        function addToCart(id, name, price, icon, category) {
+            const cart = JSON.parse(localStorage.getItem('medicareCart') || '[]');
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    icon: icon,
+                    category: category,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('medicareCart', JSON.stringify(cart));
+            updateCartBadge();
+            
+            // Visual feedback without complex animations
+            const eventTarget = window.event ? window.event.currentTarget : null;
+            if (eventTarget) {
+                const originalText = eventTarget.innerHTML;
+                eventTarget.innerHTML = '✅ Added!';
+                eventTarget.disabled = true;
+                setTimeout(() => {
+                    eventTarget.innerHTML = originalText;
+                    eventTarget.disabled = false;
+                }, 1000);
+            }
+        }
+
+        // Search and Category Filtering Logic
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        let activeCategory = 'all';
+        let searchQuery = '';
+
+        function filterProducts() {
+            productCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const category = card.getAttribute('data-category');
+                
+                const matchesSearch = name.includes(searchQuery.toLowerCase());
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+                
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            filterProducts();
+        });
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-category');
+                filterProducts();
+            });
+        });
+    </script>
+</body>
+</html>

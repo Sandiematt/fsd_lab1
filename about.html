@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Pharmacy - About Us</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>💊</span>
+                <span>MediCare Pharmacy</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">🏠 Home</a></li>
+                <li><a href="inventory.html">📦 Inventory</a></li>
+                <li><a href="cart.html" style="position: relative;">
+                    🛒 Cart
+                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                </a></li>
+                <li><a href="profile.html">👤 Profile</a></li>
+                <li><a href="about.html" class="active">ℹ️ About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" style="padding: 4rem 1rem;">
+        <h1>About MediCare Pharmacy</h1>
+        <p>Providing safe, reliable, and affordable prescription medications and healthcare supplies to our community since 2018.</p>
+    </section>
+
+    <main class="container">
+        <div class="about-grid">
+            <div class="about-text-card">
+                <h2>Our Mission</h2>
+                <p>At MediCare Pharmacy, our primary mission is to simplify healthcare management for our customers. We strive to provide easy access to critical pharmaceuticals and wellness items, backed by expert pharmacist advice and reliable service.</p>
+                <p>We are dedicated to improving the wellness and quality of life of our community by delivering authentic products and exceptional customer experiences directly to your doorstep.</p>
+            </div>
+            <div class="about-text-card">
+                <h2>Our Values</h2>
+                <p><strong>Quality Assurance:</strong> We source 100% genuine products and medications solely from certified manufacturers and trusted distributors.</p>
+                <p><strong>Customer Focus:</strong> Your health is our priority. We are continuously refining our service based on customer feedback to ensure maximum satisfaction.</p>
+                <p><strong>Safety & Safety:</strong> We maintain strict standards of compliance, data protection, and storage criteria for all prescription products.</p>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 4rem;">
+            <h2>Get In Touch</h2>
+            <p>Have any questions or need pharmacist advice? Contact us anytime.</p>
+        </div>
+
+        <div class="contact-layout">
+            <!-- Left Side: Contact Info -->
+            <div class="contact-info-panel">
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">📞</div>
+                    <div class="contact-info-text">
+                        <h4>Call Us 24/7</h4>
+                        <p>+1 (800) 555-0199</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">✉️</div>
+                    <div class="contact-info-text">
+                        <h4>Email Support</h4>
+                        <p>support@medicarepharmacy.com</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-info-icon">📍</div>
+                    <div class="contact-info-text">
+                        <h4>Our Pharmacy Location</h4>
+                        <p>123 Health Ave, Wellness City, HW 90210</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Contact Form -->
+            <div class="profile-card">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contactName">Name</label>
+                        <input type="text" id="contactName" class="form-control" required placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address</label>
+                        <input type="email" id="contactEmail" class="form-control" required placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message / Question</label>
+                        <textarea id="contactMessage" class="form-control" rows="4" required placeholder="How can we help you?"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-block" id="sendMessageBtn">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('medicareCart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        updateCartBadge();
+
+        // Contact Form Submission Handler
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('sendMessageBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '✅ Message Sent!';
+            submitBtn.disabled = true;
+            
+            // Clear message input
+            document.getElementById('contactMessage').value = '';
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
